@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Search";
+}
+<br />
+<div class="col" style="text-align:center">
+    <input class="text" type="text" autocomplete="off" placeholder=" Поиск.." name="input_search" id="input_search" />
+    <a title="Найти" href="javascript:searchCarFromClickBtn()"><img src="@Href("~/img/search_btn.png")" /></a>
+</div>
+<br />
+<div class="col" style="text-align:center">
+    <button class="btn btn-outline-secondary" style="width:75%;border:1px solid grey" id="filter_on_btn">Использовать фильтр</button>
+</div>
+<br />
+<div id="filter_div" style="display:none">
+    <div class="row">
+        <div class="col-md-6" style="text-align:center">
+            <input type="checkbox" id="cars_free_checkbox"/>
+            <label class="font_filter">Искать только свободные</label>
+        </div>
+        <div class="col-md-6" style="text-align: center">
+            <input type="checkbox" id="cars_passenger_checkbox" />
+            <label class="font_filter">Искать только легковые автомобили</label>
+        </div>
+    </div>
+    <br />
+    <div class="col" style="text-align: center">
+        <label style="font-weight:bold">КПП:</label>
+    </div>
+    <div class="col" style="text-align: center">
+        <ul class="search_filter_page_ul">
+            <li class="search_filter_page_li">
+                <input type="checkbox" id="at_checkbox"/>
+                <label class="font_filter">Автомат</label>
+            </li>
+            <li class="search_filter_page_li">
+                <input type="checkbox" id="pt_checkbox"/>
+                <label class="font_filter">Полуавтомат</label>
+            </li>
+            <li class="search_filter_page_li">
+                <input type="checkbox" id="mt_checkbox"/>
+                <label class="font_filter">Механика</label>
+            </li>
+        </ul>
+    </div>
+    <br />
+    <div class="col" style="text-align: center">
+        <label style="font-weight:bold">Цена аренды за минуту (р.):</label>
+    </div>
+    <br/>
+    <div class="col" style="text-align: center">
+        <label class="font_filter">От:</label>
+        <input type="text" id="pr_from_field" placeholder="5" style="border-radius:5px" />
+        <label class="font_filter"> До:</label>
+        <input type="text" id="pr_to_field" placeholder="12" style="border-radius:5px" />
+    </div>
+    <br />
+    <div class="col" style="text-align:center">
+        <button class="btn btn-secondary" id="filter_submit_btn">Скрыть фильтр</button>
+    </div>
+    <br />
+</div>
+<table class="table" id="search_result_table" style="display:none">
+    <thead class="thead-dark">
+        <tr>
+            <th>№</th>
+            <th>Автомобиль</th>
+            <th>Цена аренды за минуту (р.)</th>
+            <th>Статус</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+

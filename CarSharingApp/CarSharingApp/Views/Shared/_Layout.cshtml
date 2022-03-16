@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CarSharingApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/css/boostrap3.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/css/cdn_datatables.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <div>
+            <div class="row">
+                <div class="col">
+                    <a asp-area="" asp-controller="Home" asp-action="Index"><img src="@Href("~/img/logo.png")" /></a>
+                </div>
+                <div class="col" style="display:flex">
+                    <h3 style="margin:auto">Сервис проката автомобилей</h3>
+                </div>
+                <div class="col" style="text-align:center">
+                    <br />
+                    <br />
+                    <a style="font-size:16px; color:black" asp-area="" asp-controller="Home" asp-action="Index"><img src="@Href("~/img/login.png")" /> Войти или создать учетную запись</a>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
+            <a class="navbar-brand text-light">Поиск автомобиля</a>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="ShowCarList">Каталог</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="ShowCarSharingPoints">Пункты выдачи</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="ShowServiceInfo">О сервисе</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div>
+        <div class="container">
+            @RenderBody()
+        </div>
+         <div id="showCarCardDialog" class="modal fade">
+            <div id="showCarCardContent" class="modal-dialog modal-lg" style="width:850px"></div>
+        </div>
+        </div>
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; @DateTime.Now.Year - Car Sharing App
+            </div>
+        </footer>
+        <script src="~/js/jquery.min.3.5.1.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/boostrap3.js"></script>
+        <script src="~/js/datatables.js"></script>
+        @RenderSection("Scripts", required: false)
+<script charset="utf-8" type="text/javascript">
+        var cars_free_filter = 0;
+        var cars_passenger_filter = 0;
+        var at_filter = 0;
+        var pt_filter = 0;
+        var mt_filter = 0;
+        var pr_from_filter = -1;
+        var pr_to_filter = -1;
+      
+        $('#cars_free_checkbox').on('click', function () {
+            if ($('#cars_free_checkbox').is(':checked')) {
+                cars_free_filter = 1;
+            }
+            else {
+                cars_free_filter = 0;
+            }
+        });
+        $('#cars_passenger_checkbox').on('click', function () {
+            if ($('#cars_passenger_checkbox').is(':checked')) {
+                cars_passenger_filter = 1;
+            }
+            else {
+                cars_passenger_filter = 0;
+            }
+        });
+        $('#at_checkbox').on('click', function () {
+            if ($('#at_checkbox').is(':checked')) {
+                at_filter = 1;
+            }
+            else {
+                at_filter = 0;
+            }
+        });
+        $('#pt_checkbox').on('click', function () {
+            if ($('#pt_checkbox').is(':checked')) {
+                pt_filter = 1;
+            }
+            else {
+                pt_filter = 0;
+            }
+        });
+        $('#mt_checkbox').on('click', function () {
+            if ($('#mt_checkbox').is(':checked')) {
+                mt_filter = 1;
+            }
+            else {
+                mt_filter = 0;
+            }
+        });
+        $('#pr_from_field').keyup(function () {
+            pr_from_filter = $('#pr_from_field').val();
+            if ($('#pr_from_field').val() == '') pr_from_filter = -1;
+        });
+        $('#pr_to_field').keyup(function () {
+            pr_to_filter = $('#pr_to_field').val();
+            if ($('#pr_to_field').val() == '') pr_to_filter = -1;
+        });
+        $(document).ready(function () {
+            $('#car_catalog').DataTable({
+                "oLanguage": {
+                    "sProcessing": "Подождите...",
+                    "sLengthMenu": "Показать _MENU_ записей",
+                    "sZeroRecords": "Записи отсутствуют.",
+                    "sInfo": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                    "sInfoEmpty": "Записи с 0 до 0 из 0 записей",
+                    "sInfoFiltered": "(отфильтровано из _MAX_ записей)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Поиск:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Первая",
+                        "sPrevious": "Предыдущая",
+                        "sNext": "Следующая",
+                        "sLast": "Последняя"
+                    }
+                }
+            });
+        });
+        $('#filter_on_btn').on('click',
+            function () {
+                $("#filter_div").css('display', 'block');
+            });
+        $('#filter_submit_btn').on('click',
+            function () {
+                $("#filter_div").css('display', 'none');
+            });
+        $('#input_search').keyup(function () {
+            searchCarFromClickBtn();
+        });
+        function showCarInfo(car_id) {
+            $.ajax({
+                url: "@Url.Action("ShowCarCard","Home")" + '?Id=' + car_id,
+                    cache: false
+                })
+                .done(function (data) {
+                    $('#showCarCardContent').html(data);
+                    $('#showCarCardDialog').modal('show');
+                });
+    }
+        function searchCarFromClickBtn() {
+            $("#tbody_of_search_result_table").remove();
+            if ($('#input_search').val() == '' || $('#input_search').val().length<3) {
+                $('#search_result_table').css('display','none');
+            }
+            else if ($('#input_search').val().length >= 3) {
+                var value = $('#input_search').val();
+                $.ajax({
+                    url: '@Url.Action("GetCarSearch", "Home")',
+                    type: 'GET',
+                    dataType: 'json',
+                    cache: false,
+                    data: {
+                        'searchstr': value,
+                        'cars_free': cars_free_filter,
+                        'cars_passenger': cars_passenger_filter,
+                        'at': at_filter,
+                        'pt': pt_filter,
+                        'mt': mt_filter,
+                        'pr_from': pr_from_filter,
+                        'pr_to': pr_to_filter
+                        },
+                    success: function (data) {
+                        if ($('#input_search').val().length == value.length) {
+                            $("#search_result_table tbody tr").remove();
+                            var search_results = JSON.parse(data);
+                            for (var i = 0; i < search_results.carList.length; i++) {
+                                var number = i + 1;
+                                var html = '<tr>' +
+                                '<th scope="row"> ' + number + '</th>' +
+                                '<td>' + search_results.carList[i].CarName+'</td>' +
+                                '<td>' + search_results.carList[i].PricePerMinute+'</td>' +
+                                '<td>' + search_results.carList[i].Status+'</td>' +
+                                '<td style="text-align:center"><a style="color:black" href="javascript:showCarInfo('+search_results.carList[i].Id+');"><img src="@Href("~/img/car_card_icon.png")" /> Перейти в карточку автомобиля</a></td>' +
+                                '</tr>';
+                                $("#search_result_table tbody").append(html);
+                            }
+                        }
+                },
+                error: function () {
+                    alert(error.statusText);
+                }
+            });
+                $('#search_result_table').css('display','');
+            }
+        }
+</script>
+</body>
+</html>

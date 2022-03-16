@@ -1,0 +1,50 @@
+﻿@model CarSharingApp.Models.Car
+@* Карточка автомобиля *@
+
+<div class="modal-content" style="width:850px">
+    <div class="modal-header" style="display:flex">
+        @*<button class="close" id="closeWindow" data-dismiss="modal" area-hidden="true" style="color:red;font-size:25px">x</button>*@
+        <h4 style="margin:auto; font-size:21px">@Model.CarName</h4>
+    </div>
+    <div class="modal-body" style="display: flex;flex-direction: row;width:850px">
+        <div style="margin:auto">
+            <img src="@Url.Action("GetCarPhoto", "Photo", new {filename=Model.CarImg})" style="width:250px;border-radius:10px" />
+        </div>
+        <div style="margin:auto">
+            <br />
+            <dl class="dl-horizontal" style="width:450px">
+                <dt style="font-size:18px">Номер:   </dt>
+                <dd style="font-size:18px">@Model.CarNumber</dd>
+                <dt style="font-size:18px">Тип:   </dt>
+                <dd style="font-size:18px">@Model.Type</dd>
+                @if (Model.IsFree == true)
+                {
+                    <dt style="font-size:18px">Статус:   </dt>
+                    <dd style="font-size:18px; color:green">@Model.Status</dd>
+                }
+                else
+                {
+                    <dt style="font-size:18px">Статус:   </dt>
+                    <dd style="font-size:18px;color:firebrick">@Model.Status</dd>
+                }
+                <dt style="font-size:18px">1 мин, руб:   </dt>
+                <dd style="font-size:18px">@Model.PricePerMinute</dd>
+                <dt style="font-size:18px">Пробег, км:   </dt>
+                <dd style="font-size:18px">@Model.Mileage</dd>
+                <dt style="font-size:18px">КПП:   </dt>
+                <dd style="font-size:18px;color:red">@Model.Transmission</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="modal-footer">
+        @if (1 == 0)
+        {
+            <button class="btn btn-success">Арендовать</button>
+        }
+        else
+        {
+            <button class="btn btn-warning">Для аренды необходимо войти в систему</button>
+        }
+        <button class="btn btn-danger" style="margin-left:20px" data-dismiss="modal">Закрыть</button>
+    </div>
+</div>
