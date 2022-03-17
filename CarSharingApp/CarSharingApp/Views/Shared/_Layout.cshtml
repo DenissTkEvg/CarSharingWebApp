@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CarSharingApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="icon" href="@Href("~/img/favicon.ico")" type="image/x-icon" />
     <link href="~/css/boostrap3.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/css/cdn_datatables.css">
     <link rel="stylesheet" href="~/css/site.css" />
@@ -22,7 +23,7 @@
                 <div class="col" style="text-align:center">
                     <br />
                     <br />
-                    <a style="font-size:16px; color:black" asp-area="" asp-controller="Home" asp-action="Index"><img src="@Href("~/img/login.png")" /> Войти или создать учетную запись</a>
+                    <a style="font-size:16px; color:black" href="javascript:signInOrSignUp()"><img src="@Href("~/img/login.png")" /> Войти или создать учетную запись</a>
                 </div>
             </div>
         </div>
@@ -46,10 +47,13 @@
         <div class="container">
             @RenderBody()
         </div>
-         <div id="showCarCardDialog" class="modal fade">
+        <div id="showCarCardDialog" class="modal fade">
             <div id="showCarCardContent" class="modal-dialog modal-lg" style="width:850px"></div>
         </div>
+        <div id="showSignInUpDialog" class="modal fade">
+            <div id="showSignInUpContent" class="modal-dialog modal-lg" style="width:750px"></div>
         </div>
+    </div>
         <footer class="border-top footer text-muted">
             <div class="container">
                 &copy; @DateTime.Now.Year - Car Sharing App
@@ -68,7 +72,7 @@
         var mt_filter = 0;
         var pr_from_filter = -1;
         var pr_to_filter = -1;
-      
+
         $('#cars_free_checkbox').on('click', function () {
             if ($('#cars_free_checkbox').is(':checked')) {
                 cars_free_filter = 1;
@@ -158,7 +162,7 @@
                     $('#showCarCardContent').html(data);
                     $('#showCarCardDialog').modal('show');
                 });
-    }
+        }
         function searchCarFromClickBtn() {
             $("#tbody_of_search_result_table").remove();
             if ($('#input_search').val() == '' || $('#input_search').val().length<3) {
@@ -204,6 +208,22 @@
             });
                 $('#search_result_table').css('display','');
             }
+    }
+        function signInOrSignUp() {
+             $.ajax({
+                url: "@Url.Action("Login","Account")",
+                    cache: false
+                })
+                .done(function (data) {
+                    $('#showSignInUpContent').html(data);
+                    $('#showSignInUpDialog').modal('show');
+                });
+    }
+        function loginSubmit() {
+
+       
+        
+       
         }
 </script>
 </body>

@@ -1,6 +1,8 @@
 ﻿@model CarSharingApp.Models.CarsViewModel
-
-<br/>
+@{
+    ViewData["Title"] = "Catalog";
+}
+<br />
 <br />
 <table id="car_catalog" class="cell-border">
     <thead>
@@ -13,27 +15,27 @@
         </tr>
     </thead>
     <tbody>
-   @{
-       int counter = 0;
-       @foreach (var car in Model.Cars)
-        {
-           counter++;
-        <tr>
-            <th scope="row">@counter</th>
-            <td>@car.CarName</td>
-            <td>@car.PricePerMinute</td>
-            @if (car.IsFree == true)
+        @{
+            int counter = 0;
+            @foreach (var car in Model.Cars)
             {
-                <td><img src="@Href("~/img/car_free.png")" /> @car.Status</td>
+                counter++;
+                <tr>
+                    <th scope="row">@counter</th>
+                    <td>@car.CarName</td>
+                    <td>@car.PricePerMinute</td>
+                    @if (car.IsFree == true)
+                    {
+                        <td><img src="@Href("~/img/car_free.png")" /> @car.Status</td>
+                    }
+                    else
+                    {
+                        <td><img src="@Href("~/img/car_locked.png")" /> @car.Status</td>
+                    }
+                    <td style="text-align:center"><a href="javascript:showCarInfo(@car.Id);" style="color:black" class="car_card_btn"><img src="@Href("~/img/car_card_icon.png")" /> Перейти в карточку автомобиля</a></td>
+                </tr>
             }
-            else
-            {
-                <td><img src="@Href("~/img/car_locked.png")" /> @car.Status</td>
-            }
-            <td style="text-align:center"><a href="javascript:showCarInfo(@car.Id);" style="color:black" class="car_card_btn"><img src="@Href("~/img/car_card_icon.png")" /> Перейти в карточку автомобиля</a></td>
-        </tr>
         }
-    }
     </tbody>
 </table>
 
