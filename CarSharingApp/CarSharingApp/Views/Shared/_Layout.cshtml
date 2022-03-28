@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - CarSharingApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="icon" href="@Href("~/img/favicon.ico")" type="image/x-icon" />
+    <link href="~/css/toastr.css" rel="stylesheet" />
+    <link href="~/css/toastr.min.css" rel="stylesheet" />
     <link href="~/css/boostrap3.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/css/cdn_datatables.css">
     <link rel="stylesheet" href="~/css/site.css" />
@@ -21,14 +23,27 @@
                     <h3 style="margin:auto">Сервис проката автомобилей</h3>
                 </div>
                 <div class="col" style="text-align:center">
+                    <div style="display: flex;flex-direction:column">
                     <br />
                     <br />
-                    <a style="font-size:16px; color:black" href="javascript:signInOrSignUp()"><img src="@Href("~/img/login.png")" /> Войти или создать учетную запись</a>
+                    @{ 
+                    @if (User.Identity.IsAuthenticated == false)
+                    {
+                        <a style="margin:auto;font-size:16px; color:black" href="javascript:signInOrSignUp()"><img src="@Href("~/img/login.png")" /> Войти или создать учетную запись</a>
+                    }
+                    else
+                    {
+                        <p style="margin:auto; font-size:18px;">Пользователь: <a style="color:blue" href="javascript:void(0)">@User.Identity.Name</a></p>
+                        <br/>
+                        <a style="margin:auto;font-size:16px; color:black" asp-area="" asp-controller="Account" asp-action="Logout"><img style="margin-top:-5px" src="@Href("~/img/logout.png")" />Выйти</a>
+                    }
+                    }
+                    </div>
                 </div>
             </div>
         </div>
         <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
-            <a class="navbar-brand text-light">Поиск автомобиля</a>
+            <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">Поиск автомобиля</a>
 
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -53,6 +68,9 @@
         <div id="showSignInUpDialog" class="modal fade">
             <div id="showSignInUpContent" class="modal-dialog modal-lg" style="width:750px"></div>
         </div>
+        <div id="showSignUpDialog" class="modal fade">
+            <div id="showSignUpContent" class="modal-dialog modal-lg" style="width:550px"></div>
+        </div>
     </div>
         <footer class="border-top footer text-muted">
             <div class="container">
@@ -63,6 +81,7 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/boostrap3.js"></script>
         <script src="~/js/datatables.js"></script>
+        <script src="~/js/toastr.min.js"></script>
         @RenderSection("Scripts", required: false)
 <script charset="utf-8" type="text/javascript">
         var cars_free_filter = 0;
@@ -141,6 +160,43 @@
                     }
                 }
             });
+              toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+            @if(TempData["Success"]!=null)
+            {
+               <text> toastr["success"]("@TempData["Success"]")</text>
+            }
+
+            @if(TempData["Info"]!=null)
+            {
+               <text> toastr["info"]("@TempData["Info"]")</text>
+            }
+
+            @if(TempData["Warning"]!=null)
+            {
+               <text> toastr["warning"]("@TempData["Warning"]")</text>
+            }
+
+            @if(TempData["Error"] !=null)
+            {
+               <text> toastr["error"]("@TempData["Error"]")</text>
+            }
         });
         $('#filter_on_btn').on('click',
             function () {
@@ -208,22 +264,79 @@
             });
                 $('#search_result_table').css('display','');
             }
-    }
+        }
         function signInOrSignUp() {
-             $.ajax({
+            $.ajax({
                 url: "@Url.Action("Login","Account")",
                     cache: false
                 })
                 .done(function (data) {
+                    if ($('body').hasClass('modal-open') == true) {
+                        $('#showCarCardDialog').modal('toggle');
+                    }
                     $('#showSignInUpContent').html(data);
                     $('#showSignInUpDialog').modal('show');
                 });
-    }
+        }
         function loginSubmit() {
-
-       
-        
-       
+            if ($('#login').val() == '' || $('#pass').val() == '') {
+                $('#empty_login_pass_message').css('display', 'block');
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        function signUpForm() {
+            $.ajax({
+                url: "@Url.Action("SignUp","Account")",
+                    cache: false
+                })
+                .done(function (data) {
+                    if ($('body').hasClass('modal-open') == true) {
+                        $('#showSignInUpDialog').modal('toggle');
+                    }
+                    $('#showSignUpContent').html(data);
+                    $('#showSignUpDialog').modal('show');
+             });
+    }
+        function signUpSubmit() {
+            if ($('#sign_up_login').val() == '' || $('#sign_up_pass').val() == '' || $('#sign_up_full_name').val() == '' || $('#sign_up_phone').val() =='') {
+                $('#sign_up_check_empty_fields_message').css('display', 'block');
+                return false;
+            }
+            else {
+                if ($('#login_check').val() == 'True') {
+                    $('#check_login_message').css('display', 'block');
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+        function checkNewAdminLogin(login) {
+             if (login != '') {
+                $.ajax({
+                    url: '@Url.Action("CheckAdminLogin", "Account")',
+                    type: 'GET',
+                    dataType: 'json',
+                    cache: false,
+                    data: { 'login': login },
+                    success: function (data) {
+                        var checkResult = data;
+                        if (checkResult == 'True') {
+                            $('#login_check').val('True');
+                        }
+                        else {
+                            $('#login_check').val('False');
+                        }
+                    },
+                    error: function () {
+                        alert(error.statusText);
+                    }
+                });
+             }
         }
 </script>
 </body>

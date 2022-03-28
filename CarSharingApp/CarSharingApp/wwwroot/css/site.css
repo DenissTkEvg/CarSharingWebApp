@@ -95,12 +95,12 @@ body {
 }
 .form-2 {
     /* Size and position */
-    width: 750px;
+    width: 700px;
     margin: 0px auto 30px;
     padding: 15px;
     position: relative;
     /* Styles */
-    background: #fffaf6;
+    background: #e0e0e0; /*#fffaf6;*/
     border-radius: 4px;
     color: #7e7975;
     box-shadow: 0 2px 2px rgba(0,0,0,0.2), 0 1px 5px rgba(0,0,0,0.2), 0 0 0 12px rgba(255,255,255,0.4);
@@ -128,12 +128,12 @@ body {
      color: #ffb347;
      padding-left: 2px;
 }
-.form-2 .float {
-     width: 50%;
-     float: left;
-     padding-top: 15px;
-     border-top: 1px solid rgba(255,255,255,1);
-}
+    .form-2 .float {
+        width: 50%;
+        float: left;
+        padding-top: 15px;
+        border-top: 1px solid #e0e0e0; /*rgba(255,255,255,1);*/
+    }
 
 .form-2 .float:first-of-type {
      padding-right: 5px;

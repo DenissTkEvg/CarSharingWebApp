@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CarSharingApp.Models
@@ -229,77 +231,81 @@ namespace CarSharingApp.Models
                 //cars.Insert(car14);
                 //cars.Insert(car15);
 
-                var sharingPoints = db.GetCollection<SharingPoint>("car_sharing_points");
+                //var sharingPoints = db.GetCollection<SharingPoint>("car_sharing_points");
 
-                SharingPoint sharingPoint1 = new SharingPoint() {
-                    Id=1,
-                    Address="Россия, г. Москва, Пролетарский проспект, д.13Б"
-                };
-                SharingPoint sharingPoint2 = new SharingPoint()
-                {
-                    Id = 2,
-                    Address = "Россия, г. Москва, ул. Райгеля, д.3"
-                };
+                //SharingPoint sharingPoint1 = new SharingPoint() {
+                //    Id=1,
+                //    Address="Россия, г. Москва, Пролетарский проспект, д.13Б"
+                //};
+                //SharingPoint sharingPoint2 = new SharingPoint()
+                //{
+                //    Id = 2,
+                //    Address = "Россия, г. Москва, ул. Райгеля, д.3"
+                //};
 
-                sharingPoints.EnsureIndex(x => x.Id);
+                //sharingPoints.EnsureIndex(x => x.Id);
 
-                sharingPoints.Insert(sharingPoint1);
-                sharingPoints.Insert(sharingPoint2);
+                //sharingPoints.Insert(sharingPoint1);
+                //sharingPoints.Insert(sharingPoint2);
 
-                var sharingHistory = db.GetCollection<CarSharingHistory>("car_sharing_history");
+                //var sharingHistory = db.GetCollection<CarSharingHistory>("car_sharing_history");
 
-                CarSharingHistory carSharingHistory = new CarSharingHistory() {
-                    Id = 1,
-                    SharingPointId = 1,
-                    UserId = 1,
-                    ChoosenCarId = 1,
-                    FinalPrice = 1160,
-                    MinutesCount = 8,
-                    SharingDate = DateTime.Parse("10.02.2022")
-                };
+                //CarSharingHistory carSharingHistory = new CarSharingHistory() {
+                //    Id = 1,
+                //    SharingPointId = 1,
+                //    UserId = 1,
+                //    ChoosenCarId = 1,
+                //    FinalPrice = 1160,
+                //    MinutesCount = 8,
+                //    SharingDate = DateTime.Parse("10.02.2022")
+                //};
 
-                sharingHistory.EnsureIndex(x=>x.Id);
+                //sharingHistory.EnsureIndex(x=>x.Id);
 
-                sharingHistory.Insert(carSharingHistory);
+                //sharingHistory.Insert(carSharingHistory);
 
-                var users= db.GetCollection<User>("users");
+                //var users = db.GetCollection<User>("users");
 
-                User user1 = new User() {
-                    Id=1,
-                    Email="user1@gmail.com",
-                    IsAdmin=0,
-                    Login= "user1@gmail.com",
-                    Password="123",
-                    PhoneNumber="+7913432345"
-                };
-                User user2 = new User()
-                {
-                    Id = 2,
-                    Email = "user2@gmail.com",
-                    IsAdmin = 0,
-                    Login = "user2@gmail.com",
-                    Password = "123",
-                    PhoneNumber = "+7913432115"
-                };
-                User user3 = new User()
-                {
-                    Id = 3,
-                    Email = "user3@gmail.com",
-                    IsAdmin = 0,
-                    Login = "user3@gmail.com",
-                    Password = "123",
-                    PhoneNumber = "+7913132345"
-                };
+                //string user1_pass = "123";
+                //string user2_pass = "A123a";
 
-                users.EnsureIndex(x => x.Email);
+                //byte[] user1_encodedPassword = new UTF8Encoding().GetBytes(user1_pass);
+                //byte[] user1_hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(user1_encodedPassword);
+                //string user1_hash_pass = Convert.ToBase64String(user1_hash);
 
-                users.Insert(user1);
-                users.Insert(user2);
-                users.Insert(user3);
+                //byte[] user2_encodedPassword = new UTF8Encoding().GetBytes(user2_pass);
+                //byte[] user2_hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(user2_encodedPassword);
+                //string user2_hash_pass = Convert.ToBase64String(user2_hash);
 
-                var sh = sharingPoints.FindAll().ToList();
-                var h = sharingHistory.FindAll().ToList();
-                var u = users.FindAll().ToList();
+                //User user1 = new User()
+                //{
+                //    Id = 1,
+                //    Full_name = "Иванов Дмитрий Сергеевич",
+                //    Email = "user1@gmail.com",
+                //    IsAdmin = 0,
+                //    Login = "user1@gmail.com",
+                //    Password = user1_hash_pass,
+                //    PhoneNumber = "+7913432345"
+                //};
+                //User user2 = new User()
+                //{
+                //    Id = 2,
+                //    Full_name = "Титов Андрей Михайлович",
+                //    Email = "user2@gmail.com",
+                //    IsAdmin = 1,
+                //    Login = "user2@gmail.com",
+                //    Password = user2_hash_pass,
+                //    PhoneNumber = "+7913432115"
+                //};
+                //users.EnsureIndex(x => x.Email);
+
+                //users.Insert(user1);
+                //users.Insert(user2);
+
+
+                //var sh = sharingPoints.FindAll().ToList();
+                //var h = sharingHistory.FindAll().ToList();
+                //var u = users.FindAll().ToList();
             }
         }
 

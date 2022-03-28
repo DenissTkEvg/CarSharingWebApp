@@ -6,29 +6,24 @@
         @*<button class="close" id="closeWindow" data-dismiss="modal" area-hidden="true" style="color:red;font-size:25px">x</button>*@
         <h4 style="margin:auto">Войти или зарегистрироваться</h4>
     </div>
-    <div class="modal-body" style="display: flex;flex-direction: row;width:750px">
+    <div class="modal-body" style="display: flex;flex-direction:column;width:750px">
         @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-2", @onsubmit = "return loginSubmit()" }))
         {
-                <p class="float">
-                    <label for="login"><i class="icon-user"></i>Логин</label>
-                    <input type="text" name="login" placeholder="Логин или email">
-                </p>
-                <p class="float">
-                    <label for="password"><i class="icon-lock"></i>Пароль</label>
-                    <input type="password" name="password" placeholder="Пароль" class="showpassword" />
-                </p>
-                <p class="clearfix">
-                    <input type="submit" name="submit" value="Войти">
-                </p>
-         }
-         @{
-               @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-               {
-                   <p style="color:red;margin:auto">@Model.ErrorMessage</p>
-               }
-         }
-        </div>
+            <p class="float">
+                <label for="login"><i class="icon-user"></i>Логин</label>
+                <input type="text" name="Login" id="login" placeholder="Логин">
+            </p>
+            <p class="float">
+                <label for="password"><i class="icon-lock"></i>Пароль</label>
+                <input type="password" name="Password" id="pass" placeholder="Пароль" class="showpassword" />
+            </p>
+            <p class="clearfix">
+                <input type="submit" name="submit" value="Войти">
+            </p>
+        }
+        <p id="empty_login_pass_message" style="color:red; margin:auto; display:none">Заполните все обязательные поля (Логин, Пароль)</p>
+    </div>
     <div class="modal-footer">
-        <button class="btn btn-info" style="margin-left:20px" data-dismiss="modal">Регистрация</button>
+        <a href="javascript:signUpForm()" style="color:white; margin-left:20px" class="btn btn-info">Регистрация</a>
     </div>
 </div>

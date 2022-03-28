@@ -1,0 +1,15 @@
+﻿@model CarSharingApp.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Ошибка";
+}
+<br />
+<br/>
+<div style="display: flex; flex-direction: column">
+    <h1 style="margin:auto">@ViewData["Title"]</h1>
+    <br/>
+    <p style="color:red;margin:auto">@Model.ErrorMessage</p>
+    <br/>
+    <br />
+    <a style="font-size:20px;margin:auto" asp-area="" asp-controller="Home" asp-action="Index">На главную</a>
+</div>
+

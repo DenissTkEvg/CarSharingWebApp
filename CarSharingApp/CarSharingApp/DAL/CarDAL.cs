@@ -16,6 +16,7 @@ namespace CarSharingApp.DAL
             {
                 var cars = db.GetCollection<Car>("cars");
                 car_list = cars.FindAll().ToList();
+                db.Dispose();
             }
             return car_list;
         }
@@ -49,6 +50,7 @@ namespace CarSharingApp.DAL
                 {
                     search_results = search_results.Where(c => c.PricePerMinute <= price_to).ToList();
                 }
+                db.Dispose();
             }
             return search_results;
 
@@ -60,6 +62,7 @@ namespace CarSharingApp.DAL
             {
                 var cars = db.GetCollection<Car>("cars");
                 result = cars.FindAll().FirstOrDefault(c=>c.Id==id);
+                db.Dispose();
             }
             return result;
         }

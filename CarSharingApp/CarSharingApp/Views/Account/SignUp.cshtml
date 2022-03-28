@@ -1,0 +1,35 @@
+﻿@model CarSharingApp.Models.LoginModel
+
+<div class="modal-content" style="width:550px">
+    <div class="modal-header" style="display:flex">
+        <h4 style="margin:auto">Регистрация</h4>
+    </div>
+    <div class="modal-body">
+    @using (Html.BeginForm("SignUp", "Account", FormMethod.Post, new { @onsubmit = "return signUpSubmit()" }))
+    {
+        <div class="form-group">
+            <label for="sign_up_full_name">ФИО</label>
+            <input type="text" name="Full_name" class="form-control" id="sign_up_full_name" placeholder="Иванов Иван Иванович">
+        </div>
+        <div class="form-group">
+            <label for="sign_up_login">Логин (Email)</label>
+            <input type="hidden" id="login_check" />
+            <input type="email" name="Login" class="form-control" id="sign_up_login" placeholder="Email" onchange="checkNewAdminLogin(this.value)">
+            <p style="color:red;display:none" id="check_login_message">Пользователь с таким логином уже существует</p>
+        </div>
+        <div class="form-group">
+            <label for="sign_up_pass">Пароль</label>
+            <input type="password" name="Password" class="form-control" id="sign_up_pass" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="sign_up_phone">Номер телефона</label>
+            <input type="text" name="Phone" class="form-control" id="sign_up_phone" placeholder="+79112223344">
+        </div>
+        <div style="display:flex; flex-direction:column">
+            <p style="color:red;display:none; margin:auto" id="sign_up_check_empty_fields_message">Необходимо заполнить все поля</p>
+            <br/>
+            <button type="submit" class="btn btn-success" style="margin:auto">Зарегистрироваться</button>
+        </div>
+    }
+    </div>
+</div>
